@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductsAndSuppliers.Entities.Models.Context;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace ProductsAndSuppliers.DataAccess.Base
@@ -73,21 +74,13 @@ namespace ProductsAndSuppliers.DataAccess.Base
         }
 
         /// <summary>
-        /// Saves changes to the context
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task SaveChangesAsync()
-        {
-            await context.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// Updates an item in the context
+        /// Updates an item
         /// </summary>
         /// <param name="t"></param>
-        public virtual void Update(T t)
+        public virtual async Task UpdateAsync(T t)
         {
             context.Set<T>().Update(t);
+            await context.SaveChangesAsync();
         }
 
         /// <summary>

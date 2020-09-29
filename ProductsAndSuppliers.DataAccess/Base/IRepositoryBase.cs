@@ -15,8 +15,7 @@ namespace ProductsAndSuppliers.DataAccess.Base
         Task AddAsync(T t);
         Task<T> GetByIdAsync(int? id);
         Task<IEnumerable<T>> GetAllAsync();
-        Task SaveChangesAsync();
-        void Update(T t);
+        Task UpdateAsync(T t);
         Task DeleteAsync(T t);
     }
 }

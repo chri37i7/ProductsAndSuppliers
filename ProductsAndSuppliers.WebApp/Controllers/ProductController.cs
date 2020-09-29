@@ -6,7 +6,6 @@ using ProductsAndSuppliers.Entities.Models;
 using ProductsAndSuppliers.DataAccess;
 using System.Collections.Generic;
 using ProductsAndSuppliers.DataAccess.Base;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace ProductsAndSuppliers.WebApp.Controllers
 {
@@ -67,7 +66,6 @@ namespace ProductsAndSuppliers.WebApp.Controllers
             if(ModelState.IsValid)
             {
                 await repository.AddAsync(product);
-                await repository.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -121,9 +119,7 @@ namespace ProductsAndSuppliers.WebApp.Controllers
             {
                 try
                 {
-                    repository.Update(product);
-
-                    await repository.SaveChangesAsync();
+                    await repository.UpdateAsync(product);
                 }
                 catch(DbUpdateConcurrencyException)
                 {
@@ -174,7 +170,6 @@ namespace ProductsAndSuppliers.WebApp.Controllers
             Product product = await repository.GetByIdAsync(id);
 
             await repository.DeleteAsync(product);
-            await repository.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
