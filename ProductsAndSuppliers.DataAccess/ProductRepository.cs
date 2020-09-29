@@ -8,12 +8,12 @@ namespace ProductsAndSuppliers.DataAccess
 {
     public class ProductRepository : RepositoryBase<Product>
     {
-        public override async Task<Product> GetByIdAsync(int id)
+        public override async Task<Product> GetByIdAsync(int? id)
         {
             return await context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
-                .SingleOrDefaultAsync(p => p.ProductId == id);
+                .FirstOrDefaultAsync(p => p.ProductId == id);
         }
 
         public override async Task<IEnumerable<Product>> GetAllAsync()

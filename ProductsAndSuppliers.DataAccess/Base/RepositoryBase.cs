@@ -58,7 +58,7 @@ namespace ProductsAndSuppliers.DataAccess.Base
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(int? id)
         {
             return await context.Set<T>().FindAsync(id);
         }
@@ -73,12 +73,21 @@ namespace ProductsAndSuppliers.DataAccess.Base
         }
 
         /// <summary>
-        /// Updates an item
+        /// Saves changes to the context
         /// </summary>
         /// <returns></returns>
-        public virtual async Task UpdateAsync()
+        public virtual async Task SaveChangesAsync()
         {
             await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Updates an item in the context
+        /// </summary>
+        /// <param name="t"></param>
+        public virtual void Update(T t)
+        {
+            context.Set<T>().Update(t);
         }
 
         /// <summary>
