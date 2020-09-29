@@ -1,25 +1,28 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProductsAndSuppliers.DataAccess.Base;
 using ProductsAndSuppliers.Entities.Models;
-using ProductsAndSuppliers.Entities.Models.Context;
 
 namespace ProductsAndSuppliers.WebApp.Controllers
 {
     public class SupplierController : Controller
     {
-        private readonly NorthwindContext _context;
+        private readonly RepositoryBase<Supplier> repository;
 
-        public SupplierController(NorthwindContext context)
+        public SupplierController(RepositoryBase<Supplier> supplierRepository)
         {
-            _context = context;
+            repository = supplierRepository;
         }
 
         // GET: Supplier
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Suppliers.ToListAsync());
+            IEnumerable<Supplier> suppliers = await repository.GetAllAsync();
+
+            return View(suppliers);
         }
 
         // GET: Supplier/Details/5
@@ -30,8 +33,8 @@ namespace ProductsAndSuppliers.WebApp.Controllers
                 return NotFound();
             }
 
-            Supplier supplier = await _context.Suppliers
-                .FirstOrDefaultAsync(m => m.SupplierId == id);
+            Supplier supplier = await repository.GetByIdAsync(id);
+
             if (supplier == null)
             {
                 return NotFound();
@@ -55,10 +58,11 @@ namespace ProductsAndSuppliers.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(supplier);
-                await _context.SaveChangesAsync();
+                await repository.AddAsync(supplier);
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(supplier);
         }
 
@@ -70,12 +74,13 @@ namespace ProductsAndSuppliers.WebApp.Controllers
                 return NotFound();
             }
 
-            Supplier supplier = await _context.Suppliers.FindAsync(id);
+            Supplier supplier = await repository.GetByIdAsync(id);
 
             if (supplier == null)
             {
                 return NotFound();
             }
+
             return View(supplier);
         }
 
@@ -95,12 +100,11 @@ namespace ProductsAndSuppliers.WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(supplier);
-                    await _context.SaveChangesAsync();
+                    await repository.UpdateAsync(supplier);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SupplierExists(supplier.SupplierId))
+                    if (!await SupplierExistsAsync(supplier.SupplierId))
                     {
                         return NotFound();
                     }
@@ -111,6 +115,7 @@ namespace ProductsAndSuppliers.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(supplier);
         }
 
@@ -122,8 +127,8 @@ namespace ProductsAndSuppliers.WebApp.Controllers
                 return NotFound();
             }
 
-            Supplier supplier = await _context.Suppliers
-                .FirstOrDefaultAsync(m => m.SupplierId == id);
+            Supplier supplier = await repository.GetByIdAsync(id);
+
             if (supplier == null)
             {
                 return NotFound();
@@ -137,15 +142,18 @@ namespace ProductsAndSuppliers.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Supplier supplier = await _context.Suppliers.FindAsync(id);
-            _context.Suppliers.Remove(supplier);
-            await _context.SaveChangesAsync();
+            Supplier supplier = await repository.GetByIdAsync(id);
+
+            await repository.DeleteAsync(supplier);
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SupplierExists(int id)
+        private async Task<bool> SupplierExistsAsync(int id)
         {
-            return _context.Suppliers.Any(e => e.SupplierId == id);
+            Supplier supplier = await repository.GetByIdAsync(id);
+
+            return supplier != null;
         }
     }
 }
