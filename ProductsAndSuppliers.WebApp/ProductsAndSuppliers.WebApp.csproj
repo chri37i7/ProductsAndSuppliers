@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ProductsAndSuppliers.DataAccess\ProductsAndSuppliers.DataAccess.csproj" />
     <ProjectReference Include="..\ProductsAndSuppliers.Entities\ProductsAndSuppliers.Entities.csproj" />
+    <ProjectReference Include="..\ProductsAndSuppliers.Services\ProductsAndSuppliers.Services.csproj" />
   </ItemGroup>
 
 </Project>

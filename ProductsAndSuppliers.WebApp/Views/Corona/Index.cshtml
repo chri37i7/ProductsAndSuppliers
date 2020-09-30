@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ProductsAndSuppliers.Entities.Corona>
+
+@{
+    ViewData["Title"] = "Corona";
+}
+
+<h1>Corona</h1>
+
+<table class="table table-dark table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cases)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TodayCases)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deaths)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TodayDeaths)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recovered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Critical)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tests)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cases)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TodayCases)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deaths)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TodayDeaths)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recovered)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Critical)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tests)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
