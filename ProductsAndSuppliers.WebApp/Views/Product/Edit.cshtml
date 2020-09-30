@@ -4,11 +4,15 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<section class="row d-flex justify-content-center my-5">
+    <header class="col-6 text-center">
+        <h1>Edit</h1>
+        <h4>Product</h4>
+        <hr />
+    </header>
+</section>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
+<div class="row d-flex flex-column align-content-center">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -65,9 +69,11 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<section class="row d-flex justify-content-center">
+    <header class="col-6 text-left">
+        <a asp-action="Index">Back to List</a>
+    </header>
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
